@@ -1,4 +1,4 @@
-package GolangAlgorithms
+package golang
 
 import (
 	"testing"

@@ -1,5 +1,5 @@
 // I know it's called 'GolangAlgorithms' but this is a data structure. :P
-package GolangAlgorithms
+package golang
 
 type Node struct {
 	data int
