@@ -6,6 +6,20 @@ type Node struct {
 	next, prev *Node
 }
 
+func (n *Node) hasNext() bool {
+	if (n.next != nil) {
+		return true
+	}
+	return false
+}
+
+func (n *Node) hasPrev() bool {
+	if (n.prev != nil) {
+		return true
+	}
+	return false
+}
+
 type List struct {
 	head *Node
 	tail *Node
@@ -24,5 +38,39 @@ func (l *List) append(data int) *List {
 	}
 	l.tail = n
 
+	return l
+}
+
+func (l *List) remove(data int) *List {
+	found := false
+	if (l.head == nil) {
+		return l
+	}
+
+	for n := l.head; n != nil && !found; n = n.next {
+		if (n.data == data) {
+			if (n == l.head) {
+				n.next.prev = nil
+				l.head = n.next
+			}else if (n == l.tail) {
+				n.prev.next = nil
+				l.tail = n.prev
+			}else {
+				n.prev.next = n.next
+				n.next.prev = n.prev
+			}
+			l.count--
+		}
+	}
+	return l
+}
+
+func (l *List) removeLast() *List {
+	if (l.tail == nil) {
+		return l
+	}
+	l.tail = l.tail.prev
+	l.tail.next = nil
+	l.count--
 	return l
 }
