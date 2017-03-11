@@ -41,6 +41,18 @@ func (l *List) append(data int) *List {
 	return l
 }
 
+func (l *List) find(data int) *Node {
+	found := false
+	var result *Node = nil
+	for n := l.head; n != nil && !found; n = n.next {
+		if (n.data == data) {
+			found = true
+			result = n
+		}
+	}
+	return result
+}
+
 func (l *List) remove(data int) *List {
 	found := false
 	if (l.head == nil) {
@@ -59,6 +71,7 @@ func (l *List) remove(data int) *List {
 				n.prev.next = n.next
 				n.next.prev = n.prev
 			}
+			found = true
 			l.count--
 		}
 	}
@@ -73,4 +86,11 @@ func (l *List) removeLast() *List {
 	l.tail.next = nil
 	l.count--
 	return l
+}
+
+func (l *List) isEmpty() bool {
+	if (l.head == nil) {
+		return true
+	}
+	return false
 }

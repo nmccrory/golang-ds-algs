@@ -16,6 +16,19 @@ func TestAppend(t *testing.T) {
 	}
 }
 
+func TestFind(t *testing.T) {
+	list := &List{}
+	list.append(10)
+	list.append(-10)
+	list.append(99999)
+	list.append(-99999)
+
+	actual := list.find(99999)
+	if (actual.data != 99999) {
+		t.Fatalf("find operation failed: actual %d, want %d.", actual, 99999)
+	}
+}
+
 func TestRemove(t *testing.T) {
 	list := &List{}
 	list.append(10)
@@ -45,5 +58,13 @@ func TestRemoveLast(t *testing.T) {
 
 	if (list.tail.data != -10) {
 		t.Fatalf("actual %d, want -10", list.tail.data)
+	}
+}
+
+func TestIsEmpty(t *testing.T) {
+	list := &List{}
+	list.append(10)
+	if (list.isEmpty()) {
+		t.Fatalf("List is shown as empty when it size is %d.", list.count)
 	}
 }
