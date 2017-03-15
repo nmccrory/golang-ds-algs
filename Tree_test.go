@@ -1,6 +1,21 @@
 package golang
 
-import "testing"
+import (
+	"testing"
+	"fmt"
+)
+
+func generateTestTree() *Tree {
+	tree := Tree{root: nil, size: 0}
+	tree.Insert(10)
+	tree.Insert(-10)
+	tree.Insert(9999)
+	tree.Insert(1)
+	tree.Insert(404)
+	tree.Insert(2)
+	tree.Insert(25)
+	return &tree
+}
 
 func TestNewTree(t *testing.T) {
 	tree := Tree{root: nil, size: 0}
@@ -19,29 +34,39 @@ func TestTreeSize(t *testing.T) {
 }
 
 func TestInsertTreeNode(t *testing.T) {
-	tree := Tree{root: nil, size: 0}
-	tree.insert(10)
-	tree.insert(-10)
-	tree.insert(9999)
-	tree.insert(1)
-	tree.insert(2)
+	tree := generateTestTree()
 
-	if tree.Size() != 5 {
-		t.Fatalf("Size is not correct: actual %d, expected %d", tree.Size(), 5)
+	if tree.Size() != 7 {
+		t.Fatalf("Size is not correct: actual %d, expected %d", tree.Size(), 7)
 	}
 }
 
 func TestFindTreeNode(t *testing.T) {
-	tree := Tree{root: nil, size: 0}
-	tree.insert(10)
-	tree.insert(-10)
-	tree.insert(9999)
-	tree.insert(1)
-	tree.insert(404)
-	tree.insert(2)
-	result := tree.find(404)
+	tree := generateTestTree()
+	result := tree.Find(404)
 
 	if result.data != 404 {
 		t.Fatalf("Find operation failed. actual %d, expected %d", result.data, 404)
 	}
+}
+
+func TestPreorderPrint(t *testing.T) {
+	tree := generateTestTree()
+	fmt.Printf("*Preorder Traversal*\n")
+	tree.PreorderPrint()
+	fmt.Printf("\n\n")
+}
+
+func TestPostorderPrint(t *testing.T) {
+	tree := generateTestTree()
+	fmt.Printf("*Postorder Traversal*\n")
+	tree.PostorderPrint()
+	fmt.Printf("\n\n")
+}
+
+func TestInorderPrint(t *testing.T) {
+	tree := generateTestTree()
+	fmt.Printf("*Inorder Traversal*\n")
+	tree.InorderPrint()
+	fmt.Printf("\n\n")
 }
