@@ -43,10 +43,13 @@ func TestInsertTreeNode(t *testing.T) {
 
 func TestFindTreeNode(t *testing.T) {
 	tree := generateTestTree()
-	result := tree.Find(404)
-
-	if result.data != 404 {
-		t.Fatalf("Find operation failed. actual %d, expected %d", result.data, 404)
+	found, n := tree.Find(404)
+	if found {
+		if n.data != 404 {
+			t.Fatalf("Find operation failed. actual %d, expected %d", n.data, 404)
+		}
+	}else{
+		t.Fatalf("Node does not exist.")
 	}
 }
 
@@ -69,4 +72,13 @@ func TestInorderPrint(t *testing.T) {
 	fmt.Printf("*Inorder Traversal*\n")
 	tree.InorderPrint()
 	fmt.Printf("\n\n")
+}
+
+func TestTreeRemove(t *testing.T) {
+	//tree := generateTestTree()
+
+	//if !tree.Remove(404) {
+	//	t.Fatalf("Remove Node operation failed. [Node %d]", 404)
+	//}
+	//tree.PreorderPrint()
 }

@@ -29,6 +29,28 @@ func (t *Tree) isEmpty() bool {
 	return false
 }
 
+func minValue(n *TreeNode) int {
+	if n.left == nil {
+		return n.data
+	}
+	return minValue(n.right)
+}
+
+func link(n *TreeNode) {
+	if n.parent.left == n {
+		if n.left != nil {
+			n.parent.left = n.left
+		}else{
+			n.parent.left = n.right
+		}
+	} else if n.parent.right == n {
+		if n.left != nil {
+			n.parent.right = n.left
+			n.parent.right = n.right
+		}
+	}
+}
+
 func (root *TreeNode) Insert(n *TreeNode) {
 	if n.data > root.data {
 		if root.right == nil {
@@ -57,32 +79,60 @@ func (t *Tree) Insert(data int) {
 	t.root.Insert(n)
 }
 
-func Remove(parent *TreeNode, data int) {
-	// TODO: finish making remove function
-}
-
-func (t *Tree) Remove(data int) {
-	if t.isEmpty() {
-		return
+func Remove(parent *TreeNode, n *TreeNode, data int) bool {
+	switch {
+	case n.data == data:
+		if n.left != nil && n.right != nil {
+			n.data = minValue(n.right)
+			return Remove(n.right, n, n.data)
+		}
+		link(n); return true
+	case n.data < data :
+		if n.right == nil {
+			return false
+		}
+		return Remove(n, n.right, n.data)
+	case n.data > data :
+		if n.left == nil {
+			return false
+		}
+		return Remove(n, n.left, n.data)
 	}
-	t.Find(data)
-	Remove(t.Root(), data)
+	return false
 }
 
-func (n *TreeNode) Find(data int) *TreeNode {
+func (t *Tree) Remove(data int) bool {
+	if t.isEmpty() {
+		return false
+	}
+	exists, _ := t.Find(data)
+	if !exists {
+		return false
+	}
+	if t.root.data == data {
+		temp := &TreeNode{0, nil, t.root, nil}
+		success := Remove(temp, t.root, data)
+		t.root = temp.left
+		return success
+	}
+	return Remove(t.root, t.root.left, data) || Remove(t.root, t.root.right, data)
+}
+
+func (n *TreeNode) Find(data int) (bool, *TreeNode) {
 	if (n.data == data) {
-		return n
+		return true, n
 	}
 	if (data > n.data) {
 		return n.right.Find(data)
-	} else{
+	} else if(data < n.data){
 		return n.left.Find(data)
 	}
+	return false, nil
 }
 
-func (t *Tree) Find(data int) *TreeNode {
+func (t *Tree) Find(data int) (bool, *TreeNode) {
 	if (t.isEmpty()) {
-		return nil
+		return false, nil
 	}
 	return t.root.Find(data)
 }
