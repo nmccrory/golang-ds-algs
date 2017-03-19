@@ -51,8 +51,9 @@ func (h *Heap) Insert(n int) error {
 		h.priorityQueue[h.size] = n
 		h.size++
 		if(h.size > 1) {
-			for i := h.size - 1; i > 0; i++ {
-				parent := (i -1)/2
+			i := h.size - 1
+			for i > 0 {
+				parent := (i - 1)/2
 				if(Less(h.priorityQueue[i], h.priorityQueue[parent])) {
 					h.Swap(i, parent)
 					i = parent
@@ -63,6 +64,34 @@ func (h *Heap) Insert(n int) error {
 		}
 		return nil
 	}
+}
+
+func (h *Heap) Check() bool {
+	if(h.Empty()){
+		return true
+	}
+	for i:=0; i<h.size; i++ {
+		left := (2*i) + 1
+		right := (2*i) + 2
+
+		if(left >= h.size) {
+			return true
+		}
+		if(left != 0) {
+			if(h.priorityQueue[i] > h.priorityQueue[left]) {
+				return false
+			}
+		}
+		if(right >= h.size) {
+			return true
+		}
+		if(right != 0) {
+			if(h.priorityQueue[i] > h.priorityQueue[right]) {
+				return false
+			}
+		}
+	}
+	return true
 }
 
 func (h *Heap) PrintPriorityQueue() {
