@@ -66,6 +66,51 @@ func (h *Heap) Insert(n int) error {
 	}
 }
 
+func (h *Heap) Remove(n int) int {
+	if h.Empty(){
+		return -1
+	}
+	temp := h.priorityQueue[0]
+	h.Swap(0, h.size-1)
+	h.priorityQueue[h.size - 1] = 0
+	h.size--
+	if(h.size > 1) {
+		i := 0
+		for  i<h.size {
+			parent := i
+			left := (i * 2) + 1
+			right := (i * 2) + 2
+
+			// Checks to see if both left & right children exist.
+			if(h.priorityQueue[left] != 0 && h.priorityQueue[right] != 0) {
+				// Check to see if the parent is greater than either children
+				if(h.priorityQueue[parent] > h.priorityQueue[left] || h.priorityQueue[parent] > h.priorityQueue[right]) {
+					if(h.priorityQueue[left] > h.priorityQueue[right]) {
+						h.Swap(right, parent)
+						i = right
+					}else {
+						h.Swap(left, parent)
+						i = left
+					}
+				}else{
+					return temp
+				}
+			// Checks to see if only the left child exists.
+			}else if(h.priorityQueue[left] != 0) {
+				if(h.priorityQueue[parent] > h.priorityQueue[left]) {
+					h.Swap(left, parent)
+					i = left
+				}else {
+					return temp
+				}
+			}else{
+				i++
+			}
+		}
+	}
+	return temp
+}
+
 func (h *Heap) Check() bool {
 	if(h.Empty()){
 		return true

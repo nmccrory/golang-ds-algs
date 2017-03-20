@@ -36,6 +36,16 @@ func TestHeap_Insert(t *testing.T) {
 	}
 }
 
+func TestHeap_Remove(t *testing.T) {
+	h := generateTestHeap()
+	h.Insert(1337)
+
+	n := h.Remove(1337)
+	if n != 1337 {
+		t.Fatalf("Remove operation failed: actual %d, expected %d.", n, 1337)
+	}
+}
+
 func TestHeap_Check(t *testing.T) {
 	h := generateTestHeap()
 	if(!h.Check()) {
