@@ -85,4 +85,18 @@ func (h *HashTable) Set(key string, val interface{}) bool {
 	}
 }
 
-
+func (h *HashTable) Get(key string) interface{} {
+	hash := Hash(key)
+	index := hash % h.size
+	if index >= 0 && index < uint32(len(h.buckets)) {
+		bucket := h.buckets[index]
+		entry := bucket.RetrieveEntry(key)
+		if entry != nil {
+			return entry.val
+		}
+		return nil
+	}else{
+		// Index is out of range so we return nil
+		return nil
+	}
+}

@@ -19,3 +19,13 @@ func TestHashTable_Set(t *testing.T) {
 	}
 }
 
+func TestHashTable_Get(t *testing.T) {
+	h := NewHashTable(128)
+	h.Set("foo", "bar")
+	h.Set("hello", "World")
+
+	val := h.Get("foo")
+	if val != "bar" {
+		t.Fatalf("actual %d, expected %d.", val, "bar")
+	}
+}
